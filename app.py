@@ -5,7 +5,7 @@ import pandas as pd
 st.set_page_config(page_title="Price Comparison Dashboard", page_icon="🎮", layout="wide")
 
 st.title("🎮 Real-Time Price Comparison Dashboard")
-st.markdown("Track the current price of **PlayStation 5 Console** across different merchants using SerpApi Google Shopping.")
+st.markdown("Track the current price of any product across different merchants using SerpApi Google Shopping.")
 
 # Add sidebar for API key
 api_key = st.sidebar.text_input("Enter SerpApi Key", type="password")
@@ -33,7 +33,14 @@ def fetch_prices(query, api_key):
         st.error(f"Error fetching data: {response.status_code}")
         return None
 
-query = st.text_input("Search Query", "PlayStation 5 Console")
+query = st.text_input("Enter a product to track:", value="Product Name")
+
+# The API now uses whatever the user typed
+params = {
+    "engine": "google_shopping",
+    "q": query, 
+    "api_key": api_key
+}
 
 if st.button("Fetch Prices", type="primary"):
     with st.spinner("Fetching data from SerpApi..."):
